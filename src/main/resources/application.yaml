@@ -1,0 +1,51 @@
+app:
+  version: @project.version@
+spark:
+  #свойства с точкой нужно экранировать
+  common-spark-props:
+    "[mapreduce.fileoutputcommitter.marksuccessfuljobs]": "false"
+kafka:
+  common-consumer-props: &common-consumer-props
+    "[bootstrap.servers]": localhost:9092
+    "[enable.auto.commit]": false
+    "[auto.offset.reset]": earliest
+    "[max.poll.interval.ms]": 4200000
+    "[request.timeout.ms]": 4205000
+    "[session.timeout.ms]": 60000
+    "[max.poll.records]": 1
+    "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+    "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+  common-producer-props: &common-producer-props
+    "[bootstrap.servers]": localhost:9092
+    "[acks]": all
+    "[value.serializer]": org.apache.kafka.common.serialization.StringSerializer
+
+  psa-task-consumer-props:
+    group-id: KafkaInputHandlerEvent
+    topic-name: test.kih.task.channel
+    security-protocol: PLAINTEXT
+    partition-num: 1
+    bootstrap-servers: localhost:9092
+    props:
+      <<: *common-consumer-props
+      "[max.poll.records]": 1
+  psa-task-result-producer-props:
+    topic-name: test.kih.result.channel
+    props:
+      <<: *common-producer-props
+server:
+  port: 9095
+  servlet:
+    context-path: /api/v1/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, status-messages, prometheus
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+logging:
+  level:
+    root: WARN
+    net.mediascope: INFO

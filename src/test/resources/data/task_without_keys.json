@@ -1,0 +1,25 @@
+{
+  "version": "TvMappingProtocol_1555948100124_207_2019-04-02",
+  "kafkaSource": {
+    "topic": "load.tvi.paneldemrespondentvalue",
+    "startingOffsets": {
+      "load.tvi.paneldemrespondentvalue": {
+        "0": 0
+      }
+    },
+    "endingOffsets": {
+      "load.tvi.paneldemrespondentvalue": {
+        "0": 1
+      }
+    }
+  },
+  "keys": {
+  },
+  "schema": "{\"type\" : \"record\",\"name\" : \"TvMappingProtocol\",\"namespace\" : \"load.monitoring\",\"fields\" : [ {  \"name\" : \"action\",  \"type\" : \"string\"}, {  \"name\" : \"VersionID\",  \"type\" : \"int\"}, {  \"name\" : \"TaskID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"BatchID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"Reload\",  \"type\" : [ \"boolean\" ]}, {  \"name\" : \"SysTime\",  \"type\" : [ {    \"type\" : \"long\",    \"logicalType\" : \"timestamp-millis\"  } ]}, {  \"name\" : \"LoadID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"MapDate\",  \"type\" : [ {    \"type\" : \"int\",    \"logicalType\" : \"date\"  } ]}, {  \"name\" : \"ChannelID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"CompanyID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"StartTime\",  \"type\" : [ {    \"type\" : \"long\",    \"logicalType\" : \"timestamp-millis\"  } ]}, {  \"name\" : \"Duration\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"LocalCompanyID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"LocalTime\",  \"type\" : [ {    \"type\" : \"long\",    \"logicalType\" : \"timestamp-millis\"  } ]}, {  \"name\" : \"OriginalChannelID\",  \"type\" : \"int\"}, {  \"name\" : \"OriginalCompanyID\",  \"type\" : [ \"int\" ]}, {  \"name\" : \"OriginalTime\",  \"type\" : [ {    \"type\" : \"long\",    \"logicalType\" : \"timestamp-millis\"  } ]} ],\"version\" : \"TvMappingProtocol_1555948100124_207_2019-04-02\",\"BatchID\" : 207,\"DataDate\" : \"2019-04-02\"}",
+  "totalRecords": 1,
+  "totalMessages": 1,
+  "params": {
+    "dataEntity": "TvMappingProtocol",
+    "path": "/tmp/version=123"
+  }
+}

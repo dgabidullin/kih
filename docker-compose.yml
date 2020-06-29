@@ -1,0 +1,106 @@
+version: "3"
+
+services:
+  kih:
+    image: kih:latest
+    links:
+      - "master:spark-master"
+    environment:
+      TZ: Europe/Moscow
+      spring.profiles.active: cluster
+      kafka.psa-task-consumer-props.group-id: KafkaInputHandlerEvent
+      kafka.psa-task-consumer-props.topic-name: task.event
+      kafka.psa-task-consumer-props.partition-num: 1
+      kafka.psa-task-consumer-props.bootstrap-servers: "broker:29092"
+      kafka.psa-task-consumer-props.props.[bootstrap.servers]: "broker:29092"
+      kafka.psa-task-consumer-props.props.[max.poll.records]: 1
+      kafka.psa-task-result-producer-props.topic-name: task.result
+      kafka.psa-task-result-producer-props.props.[bootstrap.servers]: "broker:29092"
+      ENABLE_INIT_DAEMON: "false"
+      HDFS_URL: hdfs://namenode:8020
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    hostname: namenode
+    ports:
+      - "50070:50070"
+    volumes:
+      - ./data/hadoop/namenode:/hadoop/dfs/name
+    environment:
+      CLUSTER_NAME: test
+      INIT_DAEMON_STEP: setup_hdfs
+      VIRTUAL_HOST: hdfs-namenode.demo.big-data-europe.local
+    env_file:
+      - ./config/hadoop/hadoop.env
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    hostname: datanode
+    env_file:
+      - ./config/hadoop/hadoop.env
+
+  master:
+    image: bde2020/spark-master:2.4.3-hadoop2.7
+    hostname: spark-master
+    environment:
+      INIT_DAEMON_STEP: setup_spark
+      VIRTUAL_HOST: spark-master.demo.big-data-europe.local
+      VIRTUAL_PORT: 8080
+      ENABLE_INIT_DAEMON: "false"
+    volumes:
+      - ./data/spark-master:/data
+
+  worker:
+    image: bde2020/spark-worker:2.4.3-hadoop2.7
+    links:
+      - "master:spark-master"
+    environment:
+      VIRTUAL_HOST: spark-worker.demo.big-data-europe.local
+      VIRTUAL_PORT: 8081
+      ENABLE_INIT_DAEMON: "false"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.3.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-enterprise-kafka:5.3.1
+    hostname: broker
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_CREATE_TOPICS: "task.event:1:1, task.result:1:1, load.tvi.paneldemrespondentvalue:1:1"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
+      CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      CONFLUENT_METRICS_ENABLE: 'true'
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9190:9090
+
+  grafana:
+    image: grafana/grafana:6.5.2
+    ports:
+      - 3000:3000

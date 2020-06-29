@@ -1,0 +1,6 @@
+*.sw?
+.idea
+target
+logs/
+*.log
+*.iml
