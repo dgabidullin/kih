@@ -10,8 +10,8 @@
   | version | строка | Идентификатор версии порции данных
   | kafkaSource | объект | Объект с данными по кафке
   | kafkaSource.topic | строка | целевой топик откуда получить данные
-  | kafkaSource.startingOffsets | строка | стартовый оффсет порции данных см.документацию по спарку о формате
-  | kafkaSource.endingOffsets | строка | конечный оффсет порции данных см.документацию по спарку о формате
+  | kafkaSource.startingOffsets | объект | см.документацию по спарку о формате https://spark.apache.org/docs/2.1.2/structured-streaming-kafka-integration.html#creating-a-kafka-source-batch
+  | kafkaSource.endingOffsets | объект | см.документацию по спарку о формате https://spark.apache.org/docs/2.1.2/structured-streaming-kafka-integration.html#creating-a-kafka-source-batch
   | schema | строка | Схема авро
   | totalRecords | число | Количество записей после дешифровки авро формата
   | totalMessages | число | Количество записей в кафке в которых передана порция данных
