@@ -1,7 +1,7 @@
 # Kafka-Input-Handler
 Выпускной проект по курсу otus DE 2020-02
 ## Описание 
-Требования: https://docs.google.com/document/d/1RRBApzUUkYUsvW1TtL5g2XMVimWcVSf5TKkVH2jHHLM/edit?usp=sharing
+Требования: https://docs.google.com/document/d/1RRBApzUUkYUsvW1TtL5g2XMVimWcVSf5TKkVH2jHHLM/edit?usp=sharing <br />
 Презентация: https://docs.google.com/presentation/d/1cNDN-SFYyOhr8QRvxGpnShyadTsw_mn1GQmXFmrKaQ8/edit?usp=sharing
 
 Формат принимаемого сообщения на загрузку данных: 
