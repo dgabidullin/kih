@@ -80,3 +80,8 @@
    "description":""
 }
 ```
+## Установка
+```
+docker build -t kih .
+docker-compose up -d
+```
