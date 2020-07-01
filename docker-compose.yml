@@ -18,6 +18,8 @@ services:
       kafka.psa-task-result-producer-props.props.[bootstrap.servers]: "broker:29092"
       ENABLE_INIT_DAEMON: "false"
       HDFS_URL: hdfs://namenode:8020
+    ports:
+      - "9095:9095"
 
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -96,11 +98,13 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/:/etc/prometheus/
     ports:
-      - 9190:9090
+      - 9090:9090
 
   grafana:
     image: grafana/grafana:6.5.2
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
     ports:
       - 3000:3000

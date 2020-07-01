@@ -4,3 +4,6 @@ target
 logs/
 *.log
 *.iml
+*.zip
+
+data/*
