@@ -15,7 +15,7 @@
         <spark.avro.version>2.4.3</spark.avro.version>
         <jackson.version>2.10.0</jackson.version>
         <lombok.version>1.18.10</lombok.version>
-        <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
+        <spring.boot.version>2.5.12</spring.boot.version>
         <start.class>net.dag.kih.KafkaInputHandlerApplication</start.class>
     </properties>
 
